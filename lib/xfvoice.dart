@@ -37,6 +37,34 @@ class XFVoice {
     await _channel.invokeMethod('setParameter', param);
   }
 
+
+  Future<void> startWithView({XFVoiceListener listener}) async {
+    _channel.setMethodCallHandler((MethodCall call) async {
+      if (call.method == 'onCancel' && listener?.onCancel != null) {
+        listener.onCancel();
+      }
+      if (call.method == 'onBeginOfSpeech' &&
+          listener?.onBeginOfSpeech != null) {
+        listener.onBeginOfSpeech();
+      }
+      if (call.method == 'onEndOfSpeech' && listener?.onEndOfSpeech != null) {
+        listener.onEndOfSpeech();
+      }
+      if (call.method == 'onCompleted' && listener?.onCompleted != null) {
+        listener.onCompleted(call.arguments[0], call.arguments[1]);
+      }
+      if (call.method == 'onResults' && listener?.onResults != null) {
+        listener.onResults(call.arguments[0], call.arguments[1]);
+      }
+      if (call.method == 'onVolumeChanged' &&
+          listener?.onVolumeChanged != null) {
+        listener.onVolumeChanged(call.arguments);
+      }
+    });
+    await _channel.invokeMethod('startWithView');
+  }
+
+
   Future<void> start({XFVoiceListener listener}) async {
     _channel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'onCancel' && listener?.onCancel != null) {

@@ -30,6 +30,9 @@ static FlutterMethodChannel *_channel = nil;
     } else if ([@"start" isEqualToString:call.method]) {
         [self start];
         result(NULL);
+    } else if([@"startWithView" isEqualToString:call.method]) {
+        [self startWithView];
+        result(NULL);
     } else if ([@"stop" isEqualToString:call.method]) {
         [self stop];
         result(NULL);
@@ -60,6 +63,14 @@ static FlutterMethodChannel *_channel = nil;
 }
 
 - (void)start {
+    if ([[IFlySpeechRecognizer sharedInstance] isListening]) {
+        return;
+    }
+    self.resultString = nil;
+    [[IFlySpeechRecognizer sharedInstance] startListening];
+}
+
+- (void)startWithView {
     if ([[IFlySpeechRecognizer sharedInstance] isListening]) {
         return;
     }

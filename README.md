@@ -1,5 +1,7 @@
 # xfvoice
 
+fork by https://github.com/ligun123/xfvoice.git
+
 科大讯飞语音识别插件
 A plugin for xunfei dictation for iOS and Android.
 
